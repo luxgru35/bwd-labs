@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Добавить задачу</title>
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <h1>Список задач</h1>
+
+  <!-- Кнопка для открытия модального окна -->
+  <button class="open-dialog" onclick="openDialog()">Добавить задачу</button>
+
+  <!-- Кнопка для возврата на страницу tasks.html -->
+  <button class="go-back" onclick="goBack()">Назад к списку задач</button> 
+
+  <!-- Модальное окно -->
+  <div class="backdrop" id="backdrop" onclick="closeDialog()">
+    <dialog id="taskDialog" onclick="event.stopPropagation()">
+      <input type="text" id="taskInput" placeholder="Введите задачу">
+      <button onclick="addTask()">Добавить</button>
+      <button onclick="closeDialog()">Закрыть</button>
+    </dialog>
+  </div>
+
+  <!-- Заголовок списка задач -->
+  <div class="task-list-header">Последние добавленные задачи:</div>
+
+  <!-- Список задач -->
+  <ul class="task-list" id="taskList"></ul>
+  <script src="bundle.js"></script>
+  <script>
+    // Открыть модальное окно
+    function openDialog() {
+      const dialog = document.getElementById('taskDialog');
+      const backdrop = document.getElementById('backdrop');
+      dialog.showModal(); // Открытие диалога
+      backdrop.classList.add('active'); // Показать фон
+    }
+
+    // Закрыть модальное окно
+    function closeDialog() {
+      const dialog = document.getElementById('taskDialog');
+      const backdrop = document.getElementById('backdrop');
+      dialog.close(); // Закрытие диалога
+      backdrop.classList.remove('active'); // Скрыть фон
+    }
+
+    // Добавить задачу
+    function addTask() {
+      const taskInput = document.getElementById('taskInput');
+      const taskText = taskInput.value.trim();
+      const taskList = document.getElementById('taskList');
+
+      if (taskText) {
+        // Добавление задачи в список
+        const listItem = document.createElement('li');
+        listItem.textContent = taskText;
+        taskList.appendChild(listItem);
+
+        // Очистка поля ввода
+        taskInput.value = '';
+
+        // Закрытие модального окна
+        closeDialog();
+
+        // Сохранение задачи в локальном хранилище
+        let todoTasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+        todoTasks.push(taskText);
+        localStorage.setItem('todoTasks', JSON.stringify(todoTasks));
+      }
+    }
+
+    // Вернуться на страницу tasks.html
+    function goBack() {
+      window.location.href = 'tasks.html';
+    }
+
+    // Загрузка задач из локального хранилища при загрузке страницы
+    window.onload = function() {
+      let todoTasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+      const taskList = document.getElementById('taskList');
+
+      todoTasks.forEach(function(task) {
+        const listItem = document.createElement('li');
+        listItem.textContent = task;
+        taskList.appendChild(listItem);
+      });
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,290 @@
+body {
+    font-family: Arial, sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f5f5f5;
+  }
+  header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    color: white;
+    padding: 10px 20px;
+    z-index: 1000; 
+    display: flex; 
+    justify-content: space-between; 
+    align-items: center;
+  }
+  nav ul {
+    list-style-type: none;
+    padding: 0;
+    margin: 0;
+    display: flex;
+    justify-content: center;
+    transition: transform 0.3s ease, opacity 0.3s ease;
+    opacity: 1;
+    transform: translateY(0);
+  }
+  nav ul li {
+    margin: 15px 15px;
+    font-size: 20px;
+  }
+  nav ul li a {
+    color: white;
+    text-decoration: none;
+  }
+  nav ul li.active a {
+    color: yellow;
+    pointer-events: none;
+  }
+  .burger-menu {
+    display: none; 
+    flex-direction: column;
+    cursor: pointer;
+    padding: 10px;
+    transition: transform 0.4s; /* Плавный переход для бургер-меню */
+  }
+  .burger-menu div {
+    width: 30px;
+    height: 3px;
+    background-color: white;
+    margin: 3px 0;
+    transition: 0.4s; 
+  }
+  .burger-menu.active div:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px); /* Верхняя линия */
+  }
+  .burger-menu.active div:nth-child(2) {
+    opacity: 0; /* Средняя линия исчезает */
+  }
+  .burger-menu.active div:nth-child(3) {
+    transform: rotate(-45deg) translate(5px, -5px); /* Нижняя линия */
+  }
+  .nav-links {
+    display: flex; /* Отображаем навигацию в ряд по умолчанию */
+  }
+  .content {
+    padding: 100px 20px;
+    text-align: center;
+  }
+  .content img {
+    max-width: 100%;
+    height: auto;
+  }
+  .description {
+    background-color: #fff;
+    border-radius: 8px;
+    box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    padding: 20px;
+    margin-top: 20px;
+    text-align: left;
+    color: #333;
+  }
+  .task-list-header {
+    font-size: 1.5em;
+    color: #333;
+    margin-top: 20px;
+  }
+
+  .task-list {
+    display: flex; /* Используем Flexbox */
+    flex-wrap: wrap; /* Позволяет элементам переноситься на новую строку */
+    justify-content: space-between; /* Распределяет элементы по ширине */
+    padding: 0;
+    margin: 20px 0 0;
+    list-style-type: none;
+    width: 100%; 
+  }
+
+  .task-list li {
+    background-color: #ffeb3b;
+    padding: 15px;
+    margin: 10px; /* Установите отступы для карточек */
+    border-radius: 5px;
+    text-align: center;
+    font-size: 1.2em;
+    position: relative;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    flex: 1 1 calc(30% - 20px); /* Установите ширину карточек (примерно 30% с учетом отступов) */
+    box-sizing: border-box; /* Учитываем границы при расчете ширины */
+  }
+
+  /* Кнопка открытия модального окна */
+  .open-dialog {
+    padding: 12px 24px;
+    background-color: #ffcc00;
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    margin-bottom: 20px; /* Установите отступ снизу */
+  }
+
+  .open-dialog:hover {
+    background-color: #ff9900;
+  }
+  .backdrop {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.5);
+    display: none;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .backdrop.active {
+    display: flex;
+  }
+
+  #taskInput {
+    padding: 10px;
+    width: 100%; /* Установите ширину в 100% */
+    border: 2px solid #ffcc00;
+    border-radius: 10px;
+    background-color: #fff8d4;
+    color: #333;
+    margin-bottom: 15px;
+    font-size: 1em;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+    box-sizing: border-box; /* Учитываем границы при расчете ширины */
+  }
+
+  h2 {
+    color: #333;
+    margin-top: 0;
+  }
+
+  /* Адаптивные стили */
+  @media (max-width: 768px) {
+    nav ul {
+      display: none; /* Скрываем навигацию на мобильных */
+    }
+    .burger-menu {
+      display: flex; /* Показываем бургер-меню */
+    }
+    .nav-links.active {
+      display: flex; /* Показываем навигацию при активации */
+      flex-direction: column; /* Изменяем направление на колонку */
+      position: absolute; /* Фиксируем навигацию */
+      background-color: #333; /* Цвет фона навигации */
+      width: 100%; /* Занимаем всю ширину */
+      top: 50px; /* Отступ сверху от хедера */
+      left: 0; /* Смещаем влево */
+      opacity: 1; /* Полная непрозрачность */
+      transition: opacity 0.3s ease; /* Плавный эффект появления */
+    }
+    .nav-links{
+      display:none;
+    }}
+/* Стили только для страницы с классом .tasks-page */
+.tasks-page .add-task {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tasks-page .add-task a {
+  display: inline-block;
+  background-color: #ffeb3b;
+  color: #333;
+  font-weight: bold;
+  padding: 15px 30px;
+  text-decoration: none;
+  border-radius: 5px;
+  box-shadow: 2px 2px 8px rgba(0, 0, 0, 0.2);
+  transform: rotate(-3deg);
+  transition: transform 0.3s ease, background-color 0.3s ease;
+}
+
+.tasks-page .add-task a:hover {
+  background-color: #fdd835;
+  transform: rotate(0deg);
+}
+
+.tasks-page table {
+  width: 100%;
+  max-width: 800px;
+  margin: 0 auto;
+  border-collapse: collapse;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+}
+
+.tasks-page th {
+  background-color: #ffcc00;
+  color: #333;
+  padding: 15px;
+}
+
+.tasks-page td {
+  padding: 15px;
+  text-align: center;
+  vertical-align: top;
+}
+
+.tasks-page #todoTasks div,
+.tasks-page #inProgressTasks div,
+.tasks-page #doneTasks div {
+  background-color: #fff8d4;
+  border-radius: 5px;
+  padding: 10px;
+  margin-bottom: 10px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  position: relative;
+  opacity: 0;
+  transform: translateY(10px);
+  animation: fadeIn 0.5s forwards;
+}
+
+.tasks-page #todoTasks div {
+  background-color: #f5e1a4;
+}
+
+.tasks-page #inProgressTasks div {
+  background-color: #f3b9a8;
+}
+
+.tasks-page #doneTasks div {
+  background-color: #a4e4a3;
+}
+
+.tasks-page .task-done {
+  text-decoration: line-through;
+  color: green;
+}
+
+.tasks-page button {
+  background-color: #ff6666;
+  color: white;
+  border: none;
+  border-radius: 3px;
+  padding: 5px 10px;
+  margin-left: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+}
+
+.tasks-page button:hover {
+  background-color: #cc0000;
+}
+
+.tasks-page button + button {
+  background-color: #00bcd4;
+}
+
+.tasks-page button + button:hover {
+  background-color: #0097a7;
+}
+
+/* Анимация fadeIn */
+@keyframes fadeIn {
+  to {
+      opacity: 1;
+      transform: translateY(0);
+  }
+}

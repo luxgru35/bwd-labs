@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>О приложении</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+
+</head>
+<body>
+
+  <header>
+    <div class="burger-menu" id="burgerMenu" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="projectpage.html">Проекты</a></li>
+        <li><a href="tasks.html">Список задач</a></li>
+        <li class="active"><a href="#">О приложении</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="content">
+    <h1>О приложении</h1>
+    <p>Наше приложение "Task-Manager для зомби" предназначено для упрощения управления задачами для пользователей, любящих организованность и эффективность. С его помощью вы сможете:</p>
+    <ul>
+      <li>Создавать и редактировать задачи.</li>
+      <li>Перетаскивать задачи между разными статусами.</li>
+      <li>Отслеживать прогресс выполнения.</li>
+      <li>Сохранять ваши задачи локально.</li>
+    </ul>
+    <p>Приложение простое в использовании и доступно на всех устройствах.</p>
+
+    <img src="images/z2.webp" alt="Ошибка 404">
+  </div>
+  <script src="bundle.js"></script>
+  <script>
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active'); // Переключаем класс active
+      const burgerMenu = document.getElementById('burgerMenu');
+      burgerMenu.classList.toggle('active'); // Переключаем класс active для бургер-меню
+
+    }
+
+    
+  </script>
+</body>
+</html>
