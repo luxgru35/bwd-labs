@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Ошибка 404</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+
+  <header>
+    <div class="burger-menu" id="burgerMenu" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li class="active"><a href="#">Проекты</a></li>
+        <li><a href="tasks.html">Список задач</a></li>
+        <li><a href="aboutpage.html">О приложении</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <div class="content">
+    <h1>Ошибка 404</h1>
+    <p>Страница не найдена</p>
+    <img src="images/4041.webp" alt="Ошибка 404">
+  </div>
+  <script src="bundle.js"></script>
+  <script>
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active'); // Переключаем класс active
+      const burgerMenu = document.getElementById('burgerMenu');
+      burgerMenu.classList.toggle('active'); // Переключаем класс active для бургер-меню
+
+
+  
+    }
+
+  
+  </script>
+</body>
+</html>

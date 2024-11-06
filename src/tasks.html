@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Список задач</title>
+  <link rel="icon" href="logo.png" type="image/x-icon">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body class="tasks-page">
+
+  <!-- Шапка-меню -->
+  <header>
+    <div class="burger-menu" id="burgerMenu" onclick="toggleMenu()">
+      <div></div>
+      <div></div>
+      <div></div>
+    </div>
+    <nav>
+      <ul class="nav-links">
+        <li><a href="index.html">Главная</a></li>
+        <li><a href="projectpage.html">Проекты</a></li>
+        <li class="active"><a href="#">Список задач</a></li> <!-- Здесь активная страница -->
+        <li><a href="aboutpage.html">О приложении</a></li>
+      </ul>
+    </nav>
+  </header>
+
+  <h1>Список задач</h1>
+
+  <div class="add-task">
+    <a href="add.html">Добавить задачу</a>
+  </div>
+
+  <table id="taskTable">
+    <thead>
+      <tr>
+        <th>Задачи</th>
+        <th>В работе</th>
+        <th>Выполненные</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td id="todoTasks"></td>
+        <td id="inProgressTasks"></td>
+        <td id="doneTasks"></td>
+      </tr>
+    </tbody>
+  </table>
+  <script src="bundle.js"></script>
+  <script>
+    
+    let todoTasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
+    let inProgressTasks = JSON.parse(localStorage.getItem('inProgressTasks')) || [];
+    let doneTasks = JSON.parse(localStorage.getItem('doneTasks')) || [];
+
+    // Функция для обновления таблицы задач
+    function updateTaskTable() {
+        const todoContainer = document.getElementById('todoTasks');
+        const inProgressContainer = document.getElementById('inProgressTasks');
+        const doneContainer = document.getElementById('doneTasks');
+
+        todoContainer.innerHTML = '';
+        inProgressContainer.innerHTML = '';
+        doneContainer.innerHTML = '';
+
+        todoTasks.forEach((task, index) => {
+            const taskDiv = document.createElement('div');
+            taskDiv.textContent = task;
+            taskDiv.innerHTML += `<button onclick="moveToInProgress(${index})">В работу</button>`;
+            todoContainer.appendChild(taskDiv);
+        });
+
+        inProgressTasks.forEach((task, index) => {
+            const taskDiv = document.createElement('div');
+            taskDiv.textContent = task;
+            taskDiv.innerHTML += `<button onclick="moveToDone(${index})">Выполнить</button>`;
+            inProgressContainer.appendChild(taskDiv);
+        });
+
+        doneTasks.forEach((task, index) => {
+            const taskDiv = document.createElement('div');
+            taskDiv.textContent = task;
+            taskDiv.classList.add('task-done');
+            taskDiv.innerHTML += `<button onclick="removeDoneTask(${index})">Удалить</button>`; // Кнопка удаления
+            doneContainer.appendChild(taskDiv);
+        });
+    }
+
+    function moveToInProgress(index) {
+        inProgressTasks.push(todoTasks.splice(index, 1)[0]);
+        localStorage.setItem('todoTasks', JSON.stringify(todoTasks));
+        localStorage.setItem('inProgressTasks', JSON.stringify(inProgressTasks));
+        updateTaskTable();
+    }
+
+    function moveToDone(index) {
+        doneTasks.push(inProgressTasks.splice(index, 1)[0]);
+        localStorage.setItem('inProgressTasks', JSON.stringify(inProgressTasks));
+        localStorage.setItem('doneTasks', JSON.stringify(doneTasks));
+        updateTaskTable();
+    }
+
+    function removeDoneTask(index) {
+        doneTasks.splice(index, 1); // Удаляем задачу по индексу
+        localStorage.setItem('doneTasks', JSON.stringify(doneTasks)); // Обновляем локальное хранилище
+        updateTaskTable(); // Обновляем отображение задач
+    }
+
+    window.onload = function() {
+        updateTaskTable();
+    };
+
+    function toggleMenu() {
+      const navLinks = document.querySelector('.nav-links');
+      navLinks.classList.toggle('active'); // Переключаем класс active
+      const burgerMenu = document.getElementById('burgerMenu');
+      burgerMenu.classList.toggle('active'); // Переключаем класс active для бургер-меню
+
+    }
+
+  
+  </script>
+
+</body>
+</html>
