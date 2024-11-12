@@ -86,6 +86,7 @@ body {
     font-size: 1.5em;
     color: #333;
     margin-top: 20px;
+    text-align: center;
   }
 
   .task-list {
@@ -97,7 +98,7 @@ body {
     list-style-type: none;
     width: 100%; 
   }
-
+  
   .task-list li {
     background-color: #ffeb3b;
     padding: 15px;
@@ -111,22 +112,9 @@ body {
     box-sizing: border-box; /* Учитываем границы при расчете ширины */
   }
 
-  /* Кнопка открытия модального окна */
-  .open-dialog {
-    padding: 12px 24px;
-    background-color: #ffcc00;
-    color: #333;
-    font-weight: bold;
-    border: none;
-    border-radius: 5px;
-    cursor: pointer;
-    transition: background-color 0.3s;
-    margin-bottom: 20px; /* Установите отступ снизу */
-  }
 
-  .open-dialog:hover {
-    background-color: #ff9900;
-  }
+  /* Кнопка открытия модального окна */
+  
   .backdrop {
     position: fixed;
     top: 0;
@@ -155,7 +143,29 @@ body {
     box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
     box-sizing: border-box; /* Учитываем границы при расчете ширины */
   }
+  button {
+    display: inline-block;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: auto;
+    margin: auto;
+  }
 
+  button:hover {
+    background-color: #ff9900;
+  }
+  h1 {
+    color: #333;
+    font-size: 2em;
+    text-align: center;
+    margin-bottom: 30px;
+  }
   h2 {
     color: #333;
     margin-top: 0;
@@ -183,12 +193,73 @@ body {
     .nav-links{
       display:none;
     }}
+
+    .tasks-page .search-container {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .tasks-page #searchInput {
+      padding: 10px;
+      width: 80%;
+      max-width: 400px;
+      font-size: 16px;
+      border: 2px solid #ccc;
+      border-radius: 5px;
+    }
+    
+    .tasks-page .sort-buttons {
+      text-align: center;
+      margin-bottom: 20px;
+    }
+    
+    .tasks-page .sort-buttons button {
+      padding: 10px 20px;
+      font-size: 16px;
+      background-color: #ffcc00;
+      color: #333;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 0 10px;
+      transition: background-color 0.3s;
+    }
+    
+    .tasks-page .sort-buttons button:hover {
+      background-color: #fdd835;
+    }
+  
 /* Стили только для страницы с классом .tasks-page */
 .tasks-page .add-task {
   text-align: center;
   margin-bottom: 20px;
 }
-
+.open-dialog{
+  display: flex;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: auto;
+    margin: auto;
+}
+.go-back{
+  display: flex;
+    padding: 10px 20px;
+    background-color: #ffcc00;
+    color: #333;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+    width: auto;
+    margin-top: 10px;
+}
 .tasks-page .add-task a {
   display: inline-block;
   background-color: #ffeb3b;
