@@ -5,9 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Список задач</title>
   <link rel="icon" href="logo.png" type="image/x-icon">
-  <link rel="stylesheet" href="styles.css">
+  
 </head>
-<body class="tasks-page">
+<body>
 
   <!-- Шапка-меню -->
   <header>
@@ -18,7 +18,7 @@
     </div>
     <nav>
       <ul class="nav-links">
-        <li><a href="index.html">Главная</a></li>
+        <li><a href="mainPage.html">Главная</a></li>
         <li><a href="projectpage.html">Проекты</a></li>
         <li class="active"><a href="#">Список задач</a></li> <!-- Здесь активная страница -->
         <li><a href="aboutpage.html">О приложении</a></li>
@@ -31,6 +31,14 @@
   <div class="add-task">
     <a href="add.html">Добавить задачу</a>
   </div>
+  <div class="search-container">
+    <input type="text" id="searchInput" placeholder="Поиск задач..." onkeyup="searchTasks()">
+  </div>
+  <div class="sort-buttons">
+    <button onclick="sortTasks('asc')">Сортировать по алфавиту (А → Я)</button>
+    <button onclick="sortTasks('desc')">Сортировать по алфавиту (Я → А)</button>
+  </div>
+  
 
   <table id="taskTable">
     <thead>
@@ -50,10 +58,52 @@
   </table>
   <script src="bundle.js"></script>
   <script>
-    
     let todoTasks = JSON.parse(localStorage.getItem('todoTasks')) || [];
     let inProgressTasks = JSON.parse(localStorage.getItem('inProgressTasks')) || [];
     let doneTasks = JSON.parse(localStorage.getItem('doneTasks')) || [];
+    function searchTasks() {
+  const searchInput = document.getElementById('searchInput').value.toLowerCase();
+  const todoContainer = document.getElementById('todoTasks');
+  const inProgressContainer = document.getElementById('inProgressTasks');
+  const doneContainer = document.getElementById('doneTasks');
+
+  const allTasks = [...todoTasks, ...inProgressTasks, ...doneTasks];
+  
+  // Фильтруем задачи по ключевому слову
+  const filteredTasks = allTasks.filter(task => task.toLowerCase().includes(searchInput));
+
+  // Обновляем таблицу с отфильтрованными задачами
+  todoContainer.innerHTML = '';
+  inProgressContainer.innerHTML = '';
+  doneContainer.innerHTML = '';
+
+  filteredTasks.forEach((task, index) => {
+    const taskDiv = document.createElement('div');
+    taskDiv.textContent = task;
+    if (todoTasks.includes(task)) {
+      taskDiv.innerHTML += `
+        <button onclick="moveToInProgress(${todoTasks.indexOf(task)})">В работу</button>
+        <button onclick="removeTodoTask(${todoTasks.indexOf(task)})">Удалить</button>
+      `;
+      todoContainer.appendChild(taskDiv);
+    }
+    if (inProgressTasks.includes(task)) {
+      taskDiv.innerHTML += `
+        <button onclick="moveToDone(${inProgressTasks.indexOf(task)})">Выполнить</button>
+        <button onclick="removeInProgressTask(${inProgressTasks.indexOf(task)})">Удалить</button>
+      `;
+      inProgressContainer.appendChild(taskDiv);
+    }
+    if (doneTasks.includes(task)) {
+      taskDiv.classList.add('task-done');
+      taskDiv.innerHTML += `
+        <button onclick="removeDoneTask(${doneTasks.indexOf(task)})">Удалить</button>
+      `;
+      doneContainer.appendChild(taskDiv);
+    }
+  });
+}
+
 
     // Функция для обновления таблицы задач
     function updateTaskTable() {
@@ -66,18 +116,23 @@
         doneContainer.innerHTML = '';
 
         todoTasks.forEach((task, index) => {
-            const taskDiv = document.createElement('div');
-            taskDiv.textContent = task;
-            taskDiv.innerHTML += `<button onclick="moveToInProgress(${index})">В работу</button>`;
-            todoContainer.appendChild(taskDiv);
-        });
-
+      const taskDiv = document.createElement('div');
+      taskDiv.textContent = task;
+      taskDiv.innerHTML += `
+        <button onclick="moveToInProgress(${index})">В работу</button>
+        <button onclick="removeTodoTask(${index})">Удалить</button>
+      `;
+      todoContainer.appendChild(taskDiv);
+    });
         inProgressTasks.forEach((task, index) => {
-            const taskDiv = document.createElement('div');
-            taskDiv.textContent = task;
-            taskDiv.innerHTML += `<button onclick="moveToDone(${index})">Выполнить</button>`;
-            inProgressContainer.appendChild(taskDiv);
-        });
+      const taskDiv = document.createElement('div');
+      taskDiv.textContent = task;
+      taskDiv.innerHTML += `
+        <button onclick="moveToDone(${index})">Выполнить</button>
+        <button onclick="removeInProgressTask(${index})">Удалить</button>
+      `;
+      inProgressContainer.appendChild(taskDiv);
+    });
 
         doneTasks.forEach((task, index) => {
             const taskDiv = document.createElement('div');
@@ -107,6 +162,31 @@
         localStorage.setItem('doneTasks', JSON.stringify(doneTasks)); // Обновляем локальное хранилище
         updateTaskTable(); // Обновляем отображение задач
     }
+    function removeInProgressTask(index) {
+    inProgressTasks.splice(index, 1);
+    localStorage.setItem('inProgressTasks', JSON.stringify(inProgressTasks));
+    updateTaskTable();
+  }
+  function removeTodoTask(index) {
+    todoTasks.splice(index, 1);
+    localStorage.setItem('todoTasks', JSON.stringify(todoTasks));
+    updateTaskTable();
+  }
+  function sortTasks(order) {
+      if (order === 'asc') {
+        todoTasks.sort((a, b) => a.localeCompare(b));
+        inProgressTasks.sort((a, b) => a.localeCompare(b));
+        doneTasks.sort((a, b) => a.localeCompare(b));
+      } else if (order === 'desc') {
+        todoTasks.sort((a, b) => b.localeCompare(a));
+        inProgressTasks.sort((a, b) => b.localeCompare(a));
+        doneTasks.sort((a, b) => b.localeCompare(a));
+      }
+      localStorage.setItem('todoTasks', JSON.stringify(todoTasks));
+      localStorage.setItem('inProgressTasks', JSON.stringify(inProgressTasks));
+      localStorage.setItem('doneTasks', JSON.stringify(doneTasks));
+      updateTaskTable(); // Обновляем отображение задач после сортировки
+    }
 
     window.onload = function() {
         updateTaskTable();
@@ -119,8 +199,6 @@
       burgerMenu.classList.toggle('active'); // Переключаем класс active для бургер-меню
 
     }
-
-  
   </script>
 
 </body>
